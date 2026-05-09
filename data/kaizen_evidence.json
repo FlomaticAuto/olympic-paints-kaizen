@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-05-09T17:00:37.267619+00:00",
+  "lookback_days": 7,
+  "sessions_seen": 37,
+  "total_prompts": 464,
+  "skill_invocations": {
+    "haven": 5,
+    "apex": 4,
+    "prism": 3,
+    "striker": 3,
+    "sigma": 3,
+    "blaze": 3,
+    "vault": 2,
+    "new-task": 2,
+    "new-document": 2,
+    "pulse": 1
+  },
+  "corrections_by_agent": {
+    "HAVEN": [
+      {
+        "date": "2026-05-09",
+        "pattern": "not what i",
+        "agent": "HAVEN"
+      }
+    ],
+    "unknown": [
+      {
+        "date": "2026-05-05",
+        "pattern": "not correct",
+        "agent": "unknown"
+      },
+      {
+        "date": "2026-05-06",
+        "pattern": "not what i",
+        "agent": "unknown"
+      }
+    ],
+    "PRISM": [
+      {
+        "date": "2026-05-07",
+        "pattern": "no, that's",
+        "agent": "PRISM"
+      },
+      {
+        "date": "2026-05-07",
+        "pattern": "undo that",
+        "agent": "PRISM"
+      }
+    ],
+    "STRIKER": [
+      {
+        "date": "2026-05-05",
+        "pattern": "revert the",
+        "agent": "STRIKER"
+      }
+    ]
+  },
+  "total_corrections": 6
+}
