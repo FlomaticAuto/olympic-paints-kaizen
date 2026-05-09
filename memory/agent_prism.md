@@ -60,6 +60,11 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 <!-- PRISM: Add new learnings below as they occur. -->
 
 [2026-05-09] TASK: Weekly Kaizen audit
+  FRICTION: User corrections 'no, that's' and 'undo that' on 2026-05-07 indicate PRISM delivered incorrect or outdated report data
+  SUGGESTION: Add rule to PRISM memory: Before serving any dashboard or KPI report, always log the report version timestamp and schema hash. If user rejects the output, immediately check if a model context switch or session boundary occurred. If so, re-fetch the report from the authoritative source (QuickSight or latest stored schema) rather than relying on conversation memory.
+
+
+[2026-05-09] TASK: Weekly Kaizen audit
   FRICTION: Reps report reverted to old version; KPI fields (Activity daily, Month-level data) missing after context continuation or model switch.
   SUGGESTION: Add rule to PRISM memory: Before delivering any report refresh or model update, verify schema integrity against the current KPI manifest. If context is split across sessions, always re-confirm the active report version with the user and lock critical KPI fields (Activity, Month) in the stored template to prevent accidental reversion.
 [2026-05-09] TASK: Weekly Kaizen audit

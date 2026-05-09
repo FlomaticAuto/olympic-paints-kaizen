@@ -68,6 +68,11 @@ STRIKER is responsible for verifying the vehicle report pipeline is healthy. Eve
 <!-- STRIKER: Add new learnings below as they occur. -->
 
 [2026-05-09] TASK: Weekly Kaizen audit
+  FRICTION: User correction 'revert the' on 2026-05-05 suggests STRIKER made a change that needed rollback
+  SUGGESTION: Add rule to STRIKER memory: Before applying any Zoho CRM update, quote modification, or price list change, confirm scope and impact with the user. If a change is reverted within the same session, log it as a 'rejected action' and add a review step for future similar requests: 'Is this a test, or should I apply this permanently?'
+
+
+[2026-05-09] TASK: Weekly Kaizen audit
   FRICTION: User confusion about hooks vs. memory — configuration guidance unclear when JSON settings errors occur.
   SUGGESTION: Add rule to STRIKER memory: When a user asks to fix a JSON settings error, always first clarify: 'Do you want this to happen automatically (needs a hook in settings.json) or just update your saved preference (memory)?' Provide the distinction upfront before troubleshooting.
 
