@@ -27,9 +27,10 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-REPO_DIR   = Path(__file__).parent
-DATA_DIR   = REPO_DIR / "data"
-MEMORY_DIR = REPO_DIR / "memory"
+REPO_DIR    = Path(__file__).parent
+DATA_DIR    = REPO_DIR / "data"
+MEMORY_DIR  = REPO_DIR / "memory"
+ARCHIVE_DIR = REPO_DIR / "archive"
 
 ANTHROPIC_API_KEY  = os.environ.get("ANTHROPIC_API_KEY", "")
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -360,6 +361,52 @@ def send_telegram(analysis: dict | None, written: list[str], run_date: str):
         print(f"  Telegram error: {e}", file=sys.stderr)
 
 
+# ── Archive ───────────────────────────────────────────────────────────
+def archive_run(analysis: dict | None, evidence: dict, written: list[str], run_date: str):
+    """Append this run to archive/kaizen_history.json and save dated HTML snapshot."""
+    ARCHIVE_DIR.mkdir(exist_ok=True)
+
+    # ── JSON history log ──────────────────────────────────────────────
+    history_path = ARCHIVE_DIR / "kaizen_history.json"
+    history = []
+    if history_path.exists():
+        try:
+            history = json.loads(history_path.read_text(encoding="utf-8"))
+        except Exception:
+            history = []
+
+    entry = {
+        "run_date":      run_date,
+        "sessions":      evidence.get("sessions_seen", 0),
+        "total_prompts": evidence.get("total_prompts", 0),
+        "agents_with_findings": len((analysis or {}).get("agents", [])),
+        "total_improvements":   sum(
+            len(a.get("improvements", []))
+            for a in (analysis or {}).get("agents", [])
+        ),
+        "summary":       (analysis or {}).get("summary", ""),
+        "written_to_memory": written,
+        "findings": [
+            {
+                "agent": ae["agent"],
+                "improvements": ae.get("improvements", []),
+            }
+            for ae in (analysis or {}).get("agents", [])
+        ],
+    }
+    history.append(entry)
+    history_path.write_text(
+        json.dumps(history, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    print(f"  Archive: appended run to kaizen_history.json ({len(history)} runs total)")
+
+    # ── Dated HTML snapshot ────────────────────────────────────────────
+    snapshot_path = ARCHIVE_DIR / f"kaizen_{run_date}.html"
+    html = render_html(analysis, evidence, run_date)
+    snapshot_path.write_text(html, encoding="utf-8")
+    print(f"  Archive: saved snapshot → archive/kaizen_{run_date}.html")
+
+
 # ── Main ──────────────────────────────────────────────────────────────
 def main():
     run_date = datetime.now().strftime("%Y-%m-%d")
@@ -388,6 +435,9 @@ def main():
 
     print("  Writing to memory files…")
     written = write_to_memory(analysis or {}, run_date)
+
+    print("  Archiving run…")
+    archive_run(analysis, evidence, written, run_date)
 
     print("  Generating index.html…")
     (REPO_DIR / "index.html").write_text(
