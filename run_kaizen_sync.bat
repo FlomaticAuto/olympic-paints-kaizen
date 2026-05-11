@@ -4,4 +4,9 @@ REM Mines local Claude Code session logs, exports evidence JSON, syncs
 REM agent memory files, and pushes to github.com/FlomaticAuto/olympic-paints-kaizen.
 cd /d "C:\Users\quint\olympic-paints-kaizen"
 python kaizen_sync.py
-exit /b %ERRORLEVEL%
+set KAIZEN_RC=%ERRORLEVEL%
+
+REM ── HEALTH CHECK HOOK ─ refresh updates.html ────────────────────────────────
+"C:\Python313\python.exe" "C:\Users\quint\workspace-dashboard\scripts\health_check.py" >> "C:\Users\quint\workspace-dashboard\scripts\health_check.log" 2>&1
+
+exit /b %KAIZEN_RC%

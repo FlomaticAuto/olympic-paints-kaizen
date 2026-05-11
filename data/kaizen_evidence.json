@@ -1,21 +1,38 @@
 {
-  "generated_at": "2026-05-10T05:30:10.201165+00:00",
+  "generated_at": "2026-05-11T05:30:12.065164+00:00",
   "lookback_days": 7,
-  "sessions_seen": 41,
-  "total_prompts": 554,
+  "sessions_seen": 47,
+  "total_prompts": 747,
   "skill_invocations": {
-    "haven": 7,
-    "apex": 5,
-    "prism": 4,
-    "striker": 4,
-    "sigma": 4,
-    "blaze": 4,
-    "new-task": 4,
-    "new-document": 4,
-    "vault": 3,
-    "pulse": 1
+    "pulse": 12,
+    "haven": 9,
+    "apex": 7,
+    "prism": 6,
+    "striker": 6,
+    "blaze": 6,
+    "sigma": 5,
+    "vault": 5,
+    "new-task": 5,
+    "new-document": 5
   },
   "corrections_by_agent": {
+    "PULSE": [
+      {
+        "date": "2026-05-10",
+        "pattern": "not correct",
+        "agent": "PULSE"
+      },
+      {
+        "date": "2026-05-10",
+        "pattern": "revert the",
+        "agent": "PULSE"
+      },
+      {
+        "date": "2026-05-10",
+        "pattern": "not right",
+        "agent": "PULSE"
+      }
+    ],
     "HAVEN": [
       {
         "date": "2026-05-09",
@@ -37,6 +54,21 @@
     ],
     "PRISM": [
       {
+        "date": "2026-05-10",
+        "pattern": "not right",
+        "agent": "PRISM"
+      },
+      {
+        "date": "2026-05-10",
+        "pattern": "not right",
+        "agent": "PRISM"
+      },
+      {
+        "date": "2026-05-10",
+        "pattern": "not right",
+        "agent": "PRISM"
+      },
+      {
         "date": "2026-05-07",
         "pattern": "no, that's",
         "agent": "PRISM"
@@ -55,5 +87,5 @@
       }
     ]
   },
-  "total_corrections": 6
+  "total_corrections": 12
 }
