@@ -60,6 +60,11 @@ VAULT runs the `/kaizen` skill every Monday at 08:30. This is a core VAULT respo
 ## Accumulated Learnings
 <!-- VAULT: Add new learnings below as they occur. -->
 
+[2026-05-15] TASK: Weekly Kaizen audit
+  FRICTION: Two 'not correct' corrections on 2026-05-14 suggest VAULT created a document or task with incorrect structure, naming, or content layout.
+  SUGGESTION: Add rule to VAULT memory: Before finalizing any new document or task creation (/new-document, /new-task), ask user for a one-sentence confirmation of what was created and its intended location. If user says 'not correct', immediately ask: 'What should I have created instead?' and re-run with explicit step-by-step confirmation (filename, folder path, template type) before saving. Log rejected creations to identify recurring template or naming issues.
+
+
 [2026-05-09] TASK: Weekly Kaizen audit
   FRICTION: PARA Inbox contains stale job description (Logistics_Manager_Job_Description_10032026.docx); Projects folder (1.Projects) has items >30 days old (Business Canvas, Non-Traditional Paint Stores, Automation, Aurik); large video file in HR Disciplinary folder (>100MB).
   SUGGESTION: Add rule to VAULT memory: Implement weekly hygiene scan for PARA folders. Flag stale Inbox items (>14d without activity) for archival review. For Projects >30d, confirm with owner whether they are active or should be moved to Archive. For files >100MB in HR, check if they can be compressed or moved to external storage per data policy. Report findings to user in a standard 'Folder Hygiene Alert' each week.

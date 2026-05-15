@@ -46,3 +46,10 @@ Default theme: `theme-navy`. All HTML output follows `DESIGN_SYSTEM.md`. Logo vi
 ## Spec & plan
 - Spec: `1.Projects/PULSE — Sales & Ops Manager/2026-05-09-pulse-design.md`
 - Implementation plan: `1.Projects/PULSE — Sales & Ops Manager/2026-05-09-pulse-implementation-plan.md`
+
+
+## Accumulated Learnings
+
+[2026-05-15] TASK: Weekly Kaizen audit
+  FRICTION: Three corrections on 2026-05-10 ('not correct', 'revert the', 'not right') suggest PULSE's daily acknowledgement push or weekly scorecard contained incorrect data, wrong leaderboard ranking, or formatting issues.
+  SUGGESTION: Add rule to PULSE memory: Before pushing daily ack summary or weekly leaderboard, validate the data source matches the current rep roster and KPI definitions. Cross-check rep IDs against Zoho contacts; if any rep is missing or inactive, flag it for user confirmation. Include a one-line 'data confidence' stamp on each push (e.g., 'Scorecard generated 2026-05-10 09:15 UTC, 42 active reps, 0 discrepancies'). If user rejects output, immediately re-query source systems rather than relying on cached context.

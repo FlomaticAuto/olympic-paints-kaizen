@@ -59,6 +59,15 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 ## Accumulated Learnings
 <!-- PRISM: Add new learnings below as they occur. -->
 
+[2026-05-15] TASK: Weekly Kaizen audit
+  FRICTION: Four 'not right' corrections across 2026-05-10 and 2026-05-14 indicate delivered reports or KPI data do not match user expectations or contain stale/incorrect values.
+  SUGGESTION: Add rule to PRISM memory: Implement a pre-delivery validation step. Before serving any KPI dashboard or report refresh, cross-check the data timestamp against QuickSight's last-modified metadata. If the report timestamp is >4 hours old, re-fetch from source and notify user of data age. Log all corrections with the specific field/metric rejected so patterns can be surfaced in weekly Kaizen.
+
+[2026-05-15] TASK: Weekly Kaizen audit
+  FRICTION: Existing learnings document schema reversion and context loss issues; four corrections this week suggest the problem persists despite prior rules.
+  SUGGESTION: Escalate PRISM schema integrity checks: add a mandatory 'schema lock file' (prism_active_schema.json) that records the current KPI manifest version, critical field list (Activity, Month, etc.), and last-modified timestamp. On every session start, re-load this file and compare against conversation history. If a mismatch is detected, halt report generation and alert user: 'Schema mismatch detected. Current version: [X], conversation assumes: [Y]. Which should I use?'
+
+
 [2026-05-09] TASK: Weekly Kaizen audit
   FRICTION: User corrections 'no, that's' and 'undo that' on 2026-05-07 indicate PRISM delivered incorrect or outdated report data
   SUGGESTION: Add rule to PRISM memory: Before serving any dashboard or KPI report, always log the report version timestamp and schema hash. If user rejects the output, immediately check if a model context switch or session boundary occurred. If so, re-fetch the report from the authoritative source (QuickSight or latest stored schema) rather than relying on conversation memory.
