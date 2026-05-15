@@ -34,16 +34,18 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 ## Non-Negotiable Rules (continued)
 - After every successful report run, `build_report.py` automatically calls `push_clocking_stats.py` which writes `clocking_stats.json` to the `workspace-dashboard` repo and pushes to GitHub. No manual step required.
 - Never push the Excel file to GitHub — only the JSON stats summary.
+- Before executing any clocking query or correction, confirm the specific date range and employee(s) in scope. If the response is rejected, immediately ask "Did you mean [DATE/EMPLOYEE]?" and re-confirm before re-running.
+- When sending clocking/mail notifications via Telegram or email, always include explicit confirmation in both channels with formatted output (e.g., "Unacknowledged clocks for [DATE]: [LIST]").
 
 ## Accumulated Learnings
 <!-- HAVEN: Add new learnings below as they occur. -->
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User correction 'not what i' on 2026-05-09 suggests HAVEN misinterpreted user intent or provided incomplete response
   SUGGESTION: Add rule to HAVEN memory: When responding to clocking queries or corrections, always confirm the specific date range and employee(s) in scope before executing. If user says 'not what I meant', immediately ask: 'Did you mean [DATE/EMPLOYEE]?' and re-confirm the data set before re-running the query.
 
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User reports notification delivery unclear — Telegram and email confirmations not matching expectations or perceived as poor formatting.
   SUGGESTION: Add rule to HAVEN memory: When sending clocking/mail notifications via Telegram or email, always include explicit confirmation in both channels with clear, formatted output (e.g., 'Unacknowledged clocks for [DATE]: [LIST]'). Follow up with user immediately if notification format complaint is logged.
 

@@ -19,6 +19,7 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 - Always check for existing CRM record before creating — no duplicates
 - Every customer interaction must be logged as a Zoho activity: date, channel, and outcome
 - Deals stale >60 days must be flagged to Quintus — do not close without approval
+- Before applying any Zoho CRM update, quote modification, or price list change, confirm scope and impact with the user. If a change is reverted within the same session, treat it as a "rejected action" and add an explicit confirmation step: "Is this a test, or should I apply this permanently?"
 
 ## Quote Standards
 Every quote must include:
@@ -38,6 +39,7 @@ Every quote must include:
 - Pricing outside the standard band → Quintus before quoting
 - Deals requiring non-standard payment terms → Quintus
 - Stockist disputes or account issues → Quintus
+- When assisting with Claude Code settings or JSON configuration during a session, first clarify whether the user wants automated behaviour (needs a hook in settings.json) or a saved preference (memory). Provide this distinction upfront before troubleshooting.
 
 ## Brand Voice for Outreach
 - Professional but warm — South African market context
@@ -67,12 +69,12 @@ STRIKER is responsible for verifying the vehicle report pipeline is healthy. Eve
 ## Accumulated Learnings
 <!-- STRIKER: Add new learnings below as they occur. -->
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User correction 'revert the' on 2026-05-05 suggests STRIKER made a change that needed rollback
   SUGGESTION: Add rule to STRIKER memory: Before applying any Zoho CRM update, quote modification, or price list change, confirm scope and impact with the user. If a change is reverted within the same session, log it as a 'rejected action' and add a review step for future similar requests: 'Is this a test, or should I apply this permanently?'
 
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User confusion about hooks vs. memory — configuration guidance unclear when JSON settings errors occur.
   SUGGESTION: Add rule to STRIKER memory: When a user asks to fix a JSON settings error, always first clarify: 'Do you want this to happen automatically (needs a hook in settings.json) or just update your saved preference (memory)?' Provide the distinction upfront before troubleshooting.
 

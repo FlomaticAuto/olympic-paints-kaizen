@@ -45,11 +45,16 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 - Label every output with "Data as of [date]"
 - Write SQL using readable CTEs — avoid deeply nested subqueries
 - Lead with the business implication, then the supporting number
+- For dashboard schema changes, always note the user's request explicitly and re-surface it at the start of the next session. Do not rely on conversation context alone for feature additions.
 
 ## Data Quality Rules
 - Surface data quality issues before presenting findings — never present results with known gaps as complete
 - When row counts or totals look unexpected, validate against a known baseline before delivery
 - Document any assumptions made in the analysis
+- Before serving any dashboard or KPI report, check the report version timestamp. If the user rejects the output, check for a model context switch or session boundary and re-fetch from the authoritative source (QuickSight or latest stored schema) rather than relying on conversation memory.
+- Before delivering any report refresh or update, verify schema integrity against the current KPI manifest. If context is split across sessions, re-confirm the active report version with the user and lock critical KPI fields (Activity, Month) to prevent accidental reversion.
+- If the report data timestamp is >4 hours old, re-fetch from source and inform the user of the data age before presenting results.
+- At the start of any session involving a KPI dashboard, confirm the active schema version with the user if the context spans multiple sessions. If a mismatch is detected between the current manifest and what the conversation assumes, halt and ask: "Schema mismatch — current version is [X], conversation assumes [Y]. Which should I use?"
 
 ## Escalation Rules
 - Data access / credential issues for operations data → SIGMA
@@ -59,24 +64,23 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 ## Accumulated Learnings
 <!-- PRISM: Add new learnings below as they occur. -->
 
-[2026-05-15] TASK: Weekly Kaizen audit
+[2026-05-15] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Four 'not right' corrections across 2026-05-10 and 2026-05-14 indicate delivered reports or KPI data do not match user expectations or contain stale/incorrect values.
   SUGGESTION: Add rule to PRISM memory: Implement a pre-delivery validation step. Before serving any KPI dashboard or report refresh, cross-check the data timestamp against QuickSight's last-modified metadata. If the report timestamp is >4 hours old, re-fetch from source and notify user of data age. Log all corrections with the specific field/metric rejected so patterns can be surfaced in weekly Kaizen.
 
-[2026-05-15] TASK: Weekly Kaizen audit
+[2026-05-15] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Existing learnings document schema reversion and context loss issues; four corrections this week suggest the problem persists despite prior rules.
   SUGGESTION: Escalate PRISM schema integrity checks: add a mandatory 'schema lock file' (prism_active_schema.json) that records the current KPI manifest version, critical field list (Activity, Month, etc.), and last-modified timestamp. On every session start, re-load this file and compare against conversation history. If a mismatch is detected, halt report generation and alert user: 'Schema mismatch detected. Current version: [X], conversation assumes: [Y]. Which should I use?'
 
-
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User corrections 'no, that's' and 'undo that' on 2026-05-07 indicate PRISM delivered incorrect or outdated report data
   SUGGESTION: Add rule to PRISM memory: Before serving any dashboard or KPI report, always log the report version timestamp and schema hash. If user rejects the output, immediately check if a model context switch or session boundary occurred. If so, re-fetch the report from the authoritative source (QuickSight or latest stored schema) rather than relying on conversation memory.
 
-
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Reps report reverted to old version; KPI fields (Activity daily, Month-level data) missing after context continuation or model switch.
   SUGGESTION: Add rule to PRISM memory: Before delivering any report refresh or model update, verify schema integrity against the current KPI manifest. If context is split across sessions, always re-confirm the active report version with the user and lock critical KPI fields (Activity, Month) in the stored template to prevent accidental reversion.
-[2026-05-09] TASK: Weekly Kaizen audit
+
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Session context overflow causing loss of dashboard customization requests (e.g., 'Organization Architecture' tab addition not retained).
   SUGGESTION: Add rule to PRISM memory: For dashboard schema changes, store user requests in a dedicated 'pending-schema-updates' log file and re-surface them at session start. Do not rely on conversation context alone for feature additions.
 
