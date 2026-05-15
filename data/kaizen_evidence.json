@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-14T07:37:44.745944+00:00",
+  "generated_at": "2026-05-15T05:48:09.990047+00:00",
   "lookback_days": 7,
-  "sessions_seen": 59,
-  "total_prompts": 747,
+  "sessions_seen": 75,
+  "total_prompts": 920,
   "skill_invocations": {
     "pulse": 24,
     "haven": 6,
@@ -64,16 +64,23 @@
         "agent": "PRISM"
       },
       {
-        "date": "2026-05-07",
-        "pattern": "no, that's",
+        "date": "2026-05-14",
+        "pattern": "not right",
         "agent": "PRISM"
+      }
+    ],
+    "VAULT": [
+      {
+        "date": "2026-05-14",
+        "pattern": "not correct",
+        "agent": "VAULT"
       },
       {
-        "date": "2026-05-07",
-        "pattern": "undo that",
-        "agent": "PRISM"
+        "date": "2026-05-14",
+        "pattern": "not correct",
+        "agent": "VAULT"
       }
     ]
   },
-  "total_corrections": 10
+  "total_corrections": 11
 }
