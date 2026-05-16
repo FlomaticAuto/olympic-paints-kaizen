@@ -1,25 +1,30 @@
 {
-  "generated_at": "2026-05-15T05:48:09.990047+00:00",
+  "generated_at": "2026-05-16T10:06:10.213421+00:00",
   "lookback_days": 7,
-  "sessions_seen": 75,
-  "total_prompts": 920,
+  "sessions_seen": 93,
+  "total_prompts": 912,
   "skill_invocations": {
-    "pulse": 24,
-    "haven": 6,
-    "apex": 5,
-    "prism": 4,
-    "striker": 4,
-    "blaze": 4,
-    "vault": 4,
-    "new-task": 4,
-    "new-document": 4,
-    "sigma": 3
+    "pulse": 25,
+    "haven": 4,
+    "prism": 3,
+    "striker": 3,
+    "blaze": 3,
+    "vault": 3,
+    "apex": 3,
+    "new-task": 3,
+    "new-document": 3,
+    "sigma": 2
   },
   "corrections_by_agent": {
     "STRIKER": [
       {
         "date": "2026-05-12",
         "pattern": "no, don't",
+        "agent": "STRIKER"
+      },
+      {
+        "date": "2026-05-15",
+        "pattern": "revert the",
         "agent": "STRIKER"
       }
     ],
@@ -40,11 +45,11 @@
         "agent": "PULSE"
       }
     ],
-    "HAVEN": [
+    "unknown": [
       {
         "date": "2026-05-09",
         "pattern": "not what i",
-        "agent": "HAVEN"
+        "agent": "unknown"
       }
     ],
     "PRISM": [
@@ -82,5 +87,5 @@
       }
     ]
   },
-  "total_corrections": 11
+  "total_corrections": 12
 }
