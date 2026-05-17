@@ -1,25 +1,37 @@
 {
-  "generated_at": "2026-05-16T10:06:10.213421+00:00",
+  "generated_at": "2026-05-17T05:30:14.322643+00:00",
   "lookback_days": 7,
-  "sessions_seen": 93,
-  "total_prompts": 912,
+  "sessions_seen": 107,
+  "total_prompts": 993,
   "skill_invocations": {
-    "pulse": 25,
-    "haven": 4,
+    "pulse": 30,
+    "striker": 4,
+    "vault": 4,
     "prism": 3,
-    "striker": 3,
     "blaze": 3,
-    "vault": 3,
-    "apex": 3,
-    "new-task": 3,
-    "new-document": 3,
-    "sigma": 2
+    "apex": 2,
+    "haven": 2,
+    "sigma": 2,
+    "new-task": 1,
+    "new-document": 1
   },
   "corrections_by_agent": {
+    "unknown": [
+      {
+        "date": "2026-05-16",
+        "pattern": "not correct",
+        "agent": "unknown"
+      }
+    ],
     "STRIKER": [
       {
         "date": "2026-05-12",
         "pattern": "no, don't",
+        "agent": "STRIKER"
+      },
+      {
+        "date": "2026-05-10",
+        "pattern": "revert the",
         "agent": "STRIKER"
       },
       {
@@ -36,20 +48,8 @@
       },
       {
         "date": "2026-05-10",
-        "pattern": "revert the",
-        "agent": "PULSE"
-      },
-      {
-        "date": "2026-05-10",
         "pattern": "not right",
         "agent": "PULSE"
-      }
-    ],
-    "unknown": [
-      {
-        "date": "2026-05-09",
-        "pattern": "not what i",
-        "agent": "unknown"
       }
     ],
     "PRISM": [
@@ -72,6 +72,11 @@
         "date": "2026-05-14",
         "pattern": "not right",
         "agent": "PRISM"
+      },
+      {
+        "date": "2026-05-16",
+        "pattern": "instead, do",
+        "agent": "PRISM"
       }
     ],
     "VAULT": [
@@ -87,5 +92,5 @@
       }
     ]
   },
-  "total_corrections": 12
+  "total_corrections": 13
 }
