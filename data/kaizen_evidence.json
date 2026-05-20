@@ -1,15 +1,19 @@
 {
-  "generated_at": "2026-05-18T06:46:18.595594+00:00",
+  "generated_at": "2026-05-20T08:12:23.142994+00:00",
   "lookback_days": 7,
-  "sessions_seen": 123,
-  "total_prompts": 1032,
+  "sessions_seen": 181,
+  "total_prompts": 1301,
   "skill_invocations": {
-    "pulse": 28,
-    "striker": 2,
-    "vault": 2,
-    "prism": 1,
-    "sigma": 1,
-    "blaze": 1
+    "pulse": 23,
+    "striker": 3,
+    "vault": 3,
+    "haven": 2,
+    "prism": 2,
+    "sigma": 2,
+    "blaze": 2,
+    "apex": 1,
+    "new-task": 1,
+    "new-document": 1
   },
   "corrections_by_agent": {
     "unknown": [
@@ -17,12 +21,39 @@
         "date": "2026-05-16",
         "pattern": "not correct",
         "agent": "unknown"
+      },
+      {
+        "date": "2026-05-18",
+        "pattern": "not correct",
+        "agent": "unknown"
+      }
+    ],
+    "VAULT": [
+      {
+        "date": "2026-05-19",
+        "pattern": "not correct",
+        "agent": "VAULT"
+      },
+      {
+        "date": "2026-05-14",
+        "pattern": "not correct",
+        "agent": "VAULT"
+      },
+      {
+        "date": "2026-05-14",
+        "pattern": "not correct",
+        "agent": "VAULT"
+      },
+      {
+        "date": "2026-05-17",
+        "pattern": "no stop",
+        "agent": "VAULT"
       }
     ],
     "STRIKER": [
       {
-        "date": "2026-05-12",
-        "pattern": "no, don't",
+        "date": "2026-05-18",
+        "pattern": "no. that's",
         "agent": "STRIKER"
       },
       {
@@ -38,26 +69,19 @@
         "agent": "PRISM"
       },
       {
+        "date": "2026-05-18",
+        "pattern": "no. that's",
+        "agent": "PRISM"
+      },
+      {
+        "date": "2026-05-18",
+        "pattern": "that's wrong",
+        "agent": "PRISM"
+      },
+      {
         "date": "2026-05-16",
         "pattern": "instead, do",
         "agent": "PRISM"
-      }
-    ],
-    "VAULT": [
-      {
-        "date": "2026-05-14",
-        "pattern": "not correct",
-        "agent": "VAULT"
-      },
-      {
-        "date": "2026-05-14",
-        "pattern": "not correct",
-        "agent": "VAULT"
-      },
-      {
-        "date": "2026-05-17",
-        "pattern": "no stop",
-        "agent": "VAULT"
       }
     ],
     "PULSE": [
@@ -68,5 +92,5 @@
       }
     ]
   },
-  "total_corrections": 9
+  "total_corrections": 13
 }
