@@ -50,6 +50,11 @@ Default theme: `theme-navy`. All HTML output follows `DESIGN_SYSTEM.md`. Logo vi
 
 ## Accumulated Learnings
 
+
+[2026-05-22] TASK: Weekly Kaizen audit
+  FRICTION: One correction this week ('no stop' on 2026-05-17) suggests PULSE's daily ack push or weekly scorecard contained data errors or was sent prematurely
+  SUGGESTION: Add a pre-push validation step. Before sending daily ack summary or weekly leaderboard, cross-check rep roster against Zoho contacts and confirm all rep IDs match current active status. Include a 'data confidence stamp' on each push: 'Generated [TIMESTAMP], [N] active reps, 0 discrepancies detected'. If user halts the push mid-send, immediately re-query source systems to identify the error rather than relying on cached context.
+
 [2026-05-15] TASK: Weekly Kaizen audit
   FRICTION: Three corrections on 2026-05-10 ('not correct', 'revert the', 'not right') suggest PULSE's daily acknowledgement push or weekly scorecard contained incorrect data, wrong leaderboard ranking, or formatting issues.
   SUGGESTION: Add rule to PULSE memory: Before pushing daily ack summary or weekly leaderboard, validate the data source matches the current rep roster and KPI definitions. Cross-check rep IDs against Zoho contacts; if any rep is missing or inactive, flag it for user confirmation. Include a one-line 'data confidence' stamp on each push (e.g., 'Scorecard generated 2026-05-10 09:15 UTC, 42 active reps, 0 discrepancies'). If user rejects output, immediately re-query source systems rather than relying on cached context.

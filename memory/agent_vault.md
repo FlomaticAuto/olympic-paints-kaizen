@@ -60,6 +60,11 @@ VAULT runs the `/kaizen` skill every Monday at 08:30. This is a core VAULT respo
 ## Accumulated Learnings
 <!-- VAULT: Add new learnings below as they occur. -->
 
+[2026-05-22] TASK: Weekly Kaizen audit
+  FRICTION: Two corrections this week ('not correct' on 2026-05-19, 'no stop' on 2026-05-17) suggest VAULT created documents or tasks with incorrect structure, naming, or content layout
+  SUGGESTION: Add a pre-save confirmation step for /new-document and /new-task. Before finalizing, display a summary: 'Creating: [FILENAME] in [FOLDER PATH] using [TEMPLATE TYPE]'. Wait for explicit 'confirm' or 'stop'. If rejected, ask 'What should I create instead?' and re-run with step-by-step confirmation. Track all rejections by template type to identify recurring structural issues.
+
+
 [2026-05-15] TASK: Weekly Kaizen audit
   FRICTION: Two 'not correct' corrections on 2026-05-14 suggest VAULT created a document or task with incorrect structure, naming, or content layout.
   SUGGESTION: Add rule to VAULT memory: Before finalizing any new document or task creation (/new-document, /new-task), ask user for a one-sentence confirmation of what was created and its intended location. If user says 'not correct', immediately ask: 'What should I have created instead?' and re-run with explicit step-by-step confirmation (filename, folder path, template type) before saving. Log rejected creations to identify recurring template or naming issues.

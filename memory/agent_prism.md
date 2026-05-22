@@ -64,6 +64,11 @@ originSessionId: b045e4c6-cde2-48da-bfb5-ee2b6dd97e6f
 ## Accumulated Learnings
 <!-- PRISM: Add new learnings below as they occur. -->
 
+[2026-05-22] TASK: Weekly Kaizen audit
+  FRICTION: Three corrections this week ('no. that's', 'that's wrong', 'instead, do') indicate delivered KPI reports or dashboard data do not match user expectations or contain stale/incorrect values
+  SUGGESTION: Implement a mandatory pre-delivery data freshness check. Before serving any KPI dashboard or report, cross-check the QuickSight report timestamp against current UTC time. If the report is >4 hours old, re-fetch from source and explicitly notify user: 'Data refreshed at [TIMESTAMP], previously [OLD_TIMESTAMP]'. Log the specific metric/field rejected by user to identify which KPI definitions are drifting.
+
+
 [2026-05-15] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Four 'not right' corrections across 2026-05-10 and 2026-05-14 indicate delivered reports or KPI data do not match user expectations or contain stale/incorrect values.
   SUGGESTION: Add rule to PRISM memory: Implement a pre-delivery validation step. Before serving any KPI dashboard or report refresh, cross-check the data timestamp against QuickSight's last-modified metadata. If the report timestamp is >4 hours old, re-fetch from source and notify user of data age. Log all corrections with the specific field/metric rejected so patterns can be surfaced in weekly Kaizen.

@@ -69,6 +69,11 @@ STRIKER is responsible for verifying the vehicle report pipeline is healthy. Eve
 ## Accumulated Learnings
 <!-- STRIKER: Add new learnings below as they occur. -->
 
+[2026-05-22] TASK: Weekly Kaizen audit
+  FRICTION: Two corrections this week ('no. that's' on 2026-05-18, 'revert the' on 2026-05-15) indicate STRIKER executed changes that were rejected or required rollback
+  SUGGESTION: Add a mandatory confirmation gate before any destructive Zoho CRM update, quote modification, or price list change. Format: 'I will [ACTION]. Proceed? [yes/no]'. If reverted within same session, immediately log the rejected action with reason and add a follow-up rule: 'For future [TYPE] requests, should I ask for approval first or treat as auto-execute?'
+
+
 [2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: User correction 'revert the' on 2026-05-05 suggests STRIKER made a change that needed rollback
   SUGGESTION: Add rule to STRIKER memory: Before applying any Zoho CRM update, quote modification, or price list change, confirm scope and impact with the user. If a change is reverted within the same session, log it as a 'rejected action' and add a review step for future similar requests: 'Is this a test, or should I apply this permanently?'
