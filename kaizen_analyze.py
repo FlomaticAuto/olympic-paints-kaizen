@@ -38,6 +38,12 @@ TELEGRAM_CHAT_ID   = os.environ.get("TELEGRAM_CHAT_ID", "8042233389")
 
 AGENTS = ["HAVEN", "PRISM", "STRIKER", "SIGMA", "BLAZE", "VAULT", "PULSE"]
 
+# Recurrence floor — an agent is only surfaced to Claude if it has at least
+# MIN_EVENTS friction events across at least MIN_SESSIONS distinct sessions
+# (or distinct days, if session IDs are missing from older evidence files).
+MIN_EVENTS   = 3
+MIN_SESSIONS = 2
+
 AGENT_FILES = {
     "HAVEN":   "agent_haven.md",
     "PRISM":   "agent_prism.md",
@@ -73,6 +79,42 @@ def read_accumulated_learnings(agent: str) -> str:
     # Strip comment lines
     section = re.sub(r"<!--.*?-->", "", section, flags=re.DOTALL).strip()
     return section[:3000]  # cap to keep tokens manageable
+
+
+def filter_recurring(evidence: dict) -> tuple[dict, list[str]]:
+    """Drop agents below the recurrence floor (MIN_EVENTS over MIN_SESSIONS).
+
+    Returns (filtered_evidence, dropped_agents_with_reason).
+    Old evidence files may lack 'session' on entries — fall back to distinct dates.
+    """
+    corrections = evidence.get("corrections_by_agent", {}) or {}
+    kept: dict[str, list[dict]] = {}
+    dropped: list[str] = []
+
+    for agent in AGENTS:
+        items = corrections.get(agent, []) or []
+        if not items:
+            continue
+        n_events = len(items)
+        distinct = {e.get("session") or e.get("date", "") for e in items}
+        distinct.discard("")
+        if n_events >= MIN_EVENTS and len(distinct) >= MIN_SESSIONS:
+            kept[agent] = items
+        else:
+            dropped.append(
+                f"{agent} (events={n_events}, distinct={len(distinct)} "
+                f"— below floor {MIN_EVENTS}/{MIN_SESSIONS})"
+            )
+
+    # Always preserve the "unknown" bucket as context, but never analyzable.
+    if corrections.get("unknown"):
+        kept["unknown"] = corrections["unknown"]
+
+    filtered = dict(evidence)
+    filtered["corrections_by_agent"] = kept
+    filtered["recurrence_floor"] = {"min_events": MIN_EVENTS, "min_sessions": MIN_SESSIONS}
+    filtered["dropped_below_floor"] = dropped
+    return filtered, dropped
 
 
 def build_evidence_block(evidence: dict) -> str:
@@ -409,10 +451,11 @@ def archive_run(analysis: dict | None, evidence: dict, written: list[str], run_d
 
 # ── Main ──────────────────────────────────────────────────────────────
 def main():
+    dry_run = "--dry-run" in sys.argv[1:]
     run_date = datetime.now().strftime("%Y-%m-%d")
-    print(f"Kaizen Analyze — {run_date}")
+    print(f"Kaizen Analyze — {run_date}{' (DRY RUN)' if dry_run else ''}")
 
-    if not ANTHROPIC_API_KEY:
+    if not ANTHROPIC_API_KEY and not dry_run:
         print("ERROR: ANTHROPIC_API_KEY not set", file=sys.stderr)
         sys.exit(1)
 
@@ -421,8 +464,28 @@ def main():
     print(f"    {evidence.get('sessions_seen', 0)} sessions, "
           f"{evidence.get('total_corrections', 0)} corrections")
 
+    print(f"  Applying recurrence floor (>={MIN_EVENTS} events over >={MIN_SESSIONS} sessions)...")
+    evidence, dropped = filter_recurring(evidence)
+    if dropped:
+        for d in dropped:
+            print(f"    DROPPED: {d}")
+    else:
+        print("    (nothing dropped)")
+    kept_agents = [a for a in AGENTS if a in evidence.get("corrections_by_agent", {})]
+    print(f"    Agents above floor: {', '.join(kept_agents) or '(none)'}")
+
     print("  Building evidence block…")
     block = build_evidence_block(evidence)
+
+    if dry_run:
+        print("\n-- EVIDENCE BLOCK (would be sent to Claude) --")
+        try:
+            print(block)
+        except UnicodeEncodeError:
+            print(block.encode("ascii", "replace").decode("ascii"))
+        print("-- END --")
+        print("\nDry run: no API call, no memory writes, no archive, no telegram.")
+        return
 
     print("  Calling Claude API…")
     analysis = call_claude(block)

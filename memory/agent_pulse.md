@@ -47,14 +47,20 @@ Default theme: `theme-navy`. All HTML output follows `DESIGN_SYSTEM.md`. Logo vi
 - Spec: `1.Projects/PULSE — Sales & Ops Manager/2026-05-09-pulse-design.md`
 - Implementation plan: `1.Projects/PULSE — Sales & Ops Manager/2026-05-09-pulse-implementation-plan.md`
 
+## Pre-push validation (Rule)
+Before any daily ack mailer, weekly scorecard, or leaderboard refresh:
+1. Reload the rep roster from `pulse_config.json` and confirm every rep in the output exists and is active. Flag missing/inactive reps to Quintus before sending.
+2. Re-read the underlying source (`Meetings_Report_AWS.xlsx`, `consolidated` tab, Resend events) at runtime — never reuse cached numbers from earlier in the session.
+3. Stamp every push with a one-line confidence footer: `Generated <UTC timestamp> · <N> active reps · <N> discrepancies`.
+4. If Quintus replies "not correct" / "revert" / "not right", do NOT re-send from memory — re-query source systems and diff the new output against the rejected one before re-pushing.
 
 ## Accumulated Learnings
 
-
-[2026-05-22] TASK: Weekly Kaizen audit
+[2026-05-22] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: One correction this week ('no stop' on 2026-05-17) suggests PULSE's daily ack push or weekly scorecard contained data errors or was sent prematurely
   SUGGESTION: Add a pre-push validation step. Before sending daily ack summary or weekly leaderboard, cross-check rep roster against Zoho contacts and confirm all rep IDs match current active status. Include a 'data confidence stamp' on each push: 'Generated [TIMESTAMP], [N] active reps, 0 discrepancies detected'. If user halts the push mid-send, immediately re-query source systems to identify the error rather than relying on cached context.
+  NOTE: Already covered by "Pre-push validation (Rule)" added 2026-05-23. Single 'no stop' would also be filtered by new recurrence floor (1 event < 3).
 
-[2026-05-15] TASK: Weekly Kaizen audit
+[2026-05-15] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Three corrections on 2026-05-10 ('not correct', 'revert the', 'not right') suggest PULSE's daily acknowledgement push or weekly scorecard contained incorrect data, wrong leaderboard ranking, or formatting issues.
   SUGGESTION: Add rule to PULSE memory: Before pushing daily ack summary or weekly leaderboard, validate the data source matches the current rep roster and KPI definitions. Cross-check rep IDs against Zoho contacts; if any rep is missing or inactive, flag it for user confirmation. Include a one-line 'data confidence' stamp on each push (e.g., 'Scorecard generated 2026-05-10 09:15 UTC, 42 active reps, 0 discrepancies'). If user rejects output, immediately re-query source systems rather than relying on cached context.

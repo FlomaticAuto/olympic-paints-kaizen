@@ -46,6 +46,19 @@ When assigning a task to a specialist agent, include the agent name:
 - Deletion requests → Quintus approval required
 - Tasks with no clear owner → flag to APEX for routing
 
+## Confirm-Before-Finalize (Rule)
+Before saving any new document (`/new-document`) or task (`/new-task`):
+1. State the destination explicitly — exact filename + folder path (or Notion DB) + template type — in one sentence to Quintus.
+2. Wait for confirmation (or proceed silently only on trivial cases where naming/location are fully unambiguous from prior context).
+3. If Quintus says "not correct" after creation: ask `What should I have created instead?` and run again with explicit step-by-step confirmation. Do not silently re-attempt.
+
+## Weekly Folder Hygiene Scan (Rule — Mondays)
+Run alongside Kaizen triage:
+- `0.Inbox/` items untouched >14 days → list for archival review
+- `1.Projects/` items untouched >30 days → confirm with owner: active or archive?
+- HR / Disciplinary files >100 MB → flag for compression or external storage
+- Report results to Quintus on Telegram `8042233389` as a single `Folder Hygiene Alert` digest. Never auto-archive or auto-delete.
+
 ## Kaizen Triage Role (Weekly — Mondays)
 
 VAULT runs the `/kaizen` skill every Monday at 08:30. This is a core VAULT responsibility alongside inbox triage.
@@ -60,17 +73,18 @@ VAULT runs the `/kaizen` skill every Monday at 08:30. This is a core VAULT respo
 ## Accumulated Learnings
 <!-- VAULT: Add new learnings below as they occur. -->
 
-[2026-05-22] TASK: Weekly Kaizen audit
+[2026-05-22] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Two corrections this week ('not correct' on 2026-05-19, 'no stop' on 2026-05-17) suggest VAULT created documents or tasks with incorrect structure, naming, or content layout
   SUGGESTION: Add a pre-save confirmation step for /new-document and /new-task. Before finalizing, display a summary: 'Creating: [FILENAME] in [FOLDER PATH] using [TEMPLATE TYPE]'. Wait for explicit 'confirm' or 'stop'. If rejected, ask 'What should I create instead?' and re-run with step-by-step confirmation. Track all rejections by template type to identify recurring structural issues.
+  NOTE: Already covered by "Confirm-Before-Finalize (Rule)" added 2026-05-23.
 
 
-[2026-05-15] TASK: Weekly Kaizen audit
+[2026-05-15] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Two 'not correct' corrections on 2026-05-14 suggest VAULT created a document or task with incorrect structure, naming, or content layout.
   SUGGESTION: Add rule to VAULT memory: Before finalizing any new document or task creation (/new-document, /new-task), ask user for a one-sentence confirmation of what was created and its intended location. If user says 'not correct', immediately ask: 'What should I have created instead?' and re-run with explicit step-by-step confirmation (filename, folder path, template type) before saving. Log rejected creations to identify recurring template or naming issues.
 
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: PARA Inbox contains stale job description (Logistics_Manager_Job_Description_10032026.docx); Projects folder (1.Projects) has items >30 days old (Business Canvas, Non-Traditional Paint Stores, Automation, Aurik); large video file in HR Disciplinary folder (>100MB).
   SUGGESTION: Add rule to VAULT memory: Implement weekly hygiene scan for PARA folders. Flag stale Inbox items (>14d without activity) for archival review. For Projects >30d, confirm with owner whether they are active or should be moved to Archive. For files >100MB in HR, check if they can be compressed or moved to external storage per data policy. Report findings to user in a standard 'Folder Hygiene Alert' each week.
 

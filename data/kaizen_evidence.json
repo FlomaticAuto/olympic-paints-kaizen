@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-22T05:30:17.145210+00:00",
+  "generated_at": "2026-05-23T05:30:16.515470+00:00",
   "lookback_days": 7,
-  "sessions_seen": 203,
-  "total_prompts": 1429,
+  "sessions_seen": 190,
+  "total_prompts": 1394,
   "skill_invocations": {
-    "pulse": 30,
+    "pulse": 29,
     "striker": 3,
     "vault": 3,
     "haven": 2,
@@ -20,62 +20,64 @@
       {
         "date": "2026-05-16",
         "pattern": "not correct",
-        "agent": "unknown"
+        "agent": "unknown",
+        "session": "00420938-739f-43fd-8ded-b1ba5a291e1d"
       },
       {
         "date": "2026-05-18",
         "pattern": "not correct",
-        "agent": "unknown"
+        "agent": "unknown",
+        "session": "bf94b190-ca65-4ef0-845d-99de5ddba632"
       }
     ],
     "VAULT": [
       {
         "date": "2026-05-19",
         "pattern": "not correct",
-        "agent": "VAULT"
+        "agent": "VAULT",
+        "session": "00f5f893-f3f1-44f0-881e-f22ac2749b7f"
       },
       {
         "date": "2026-05-17",
         "pattern": "no stop",
-        "agent": "VAULT"
+        "agent": "VAULT",
+        "session": "e6a0e1ca-c8b2-498d-9f3e-fad8de53fa86"
+      },
+      {
+        "date": "2026-05-17",
+        "pattern": "no stop",
+        "agent": "VAULT",
+        "session": "e6a0e1ca-c8b2-498d-9f3e-fad8de53fa86"
       }
     ],
     "STRIKER": [
       {
         "date": "2026-05-18",
         "pattern": "no. that's",
-        "agent": "STRIKER"
-      },
-      {
-        "date": "2026-05-15",
-        "pattern": "revert the",
-        "agent": "STRIKER"
+        "agent": "STRIKER",
+        "session": "185a616f-903a-452f-9477-83488e0e1793"
       }
     ],
     "PRISM": [
       {
         "date": "2026-05-18",
         "pattern": "no. that's",
-        "agent": "PRISM"
+        "agent": "PRISM",
+        "session": "d5469a89-8a3a-4f34-9f36-92b3fb31ba0b"
       },
       {
         "date": "2026-05-18",
         "pattern": "that's wrong",
-        "agent": "PRISM"
+        "agent": "PRISM",
+        "session": "df03ecfd-4a1b-41c2-8c8e-22e9544afb59"
       },
       {
         "date": "2026-05-16",
         "pattern": "instead, do",
-        "agent": "PRISM"
-      }
-    ],
-    "PULSE": [
-      {
-        "date": "2026-05-17",
-        "pattern": "no stop",
-        "agent": "PULSE"
+        "agent": "PRISM",
+        "session": "a1fe7ca5-c3fe-4437-8d0e-61dd9fb4eb51"
       }
     ]
   },
-  "total_corrections": 10
+  "total_corrections": 9
 }

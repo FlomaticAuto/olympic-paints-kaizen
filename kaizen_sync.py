@@ -137,8 +137,13 @@ def mine_evidence() -> dict:
     # Corrections stored as metadata only — no raw text committed to public GitHub
     corrections_by_agent: dict[str, list[dict]] = defaultdict(list)
 
+    # Attribution window: active_agent persists for at most ATTR_WINDOW user messages
+    # after a /skill invocation. Past that, fall back to keyword-score guess.
+    ATTR_WINDOW = 10
+
     for f in files:
         active_agent: str | None = None
+        attr_remaining = 0
         for evt in iter_jsonl(f):
             sid = evt.get("sessionId")
             if sid:
@@ -165,21 +170,41 @@ def mine_evidence() -> dict:
 
             total_prompts += 1
 
+            # Decay the attribution window on each user message
+            if attr_remaining > 0:
+                attr_remaining -= 1
+                if attr_remaining == 0:
+                    active_agent = None
+
             for m in SKILL_RE.findall(txt):
                 skill_counts[m.lower()] += 1
                 ag = SKILL_TO_AGENT.get(m.lower())
                 if ag:
                     active_agent = ag
+                    attr_remaining = ATTR_WINDOW
 
             if CORRECTION_RE.search(txt):
-                agent = active_agent or guess_agent(txt)
-                # Store only the matched pattern name + date — NOT the raw text
+                # Prefer keyword-score guess if it disagrees strongly with sticky agent.
+                # `guess_agent` returns the best-scoring agent only if score > 0;
+                # we re-implement here to also check the score magnitude.
+                txt_l = txt.lower()
+                scores = {a: sum(1 for kw in kws if kw in txt_l)
+                          for a, kws in AGENT_DOMAINS.items()}
+                best = max(scores, key=lambda a: scores[a])
+                strong_signal = scores[best] >= 2
+
+                if strong_signal and best != active_agent:
+                    agent = best
+                else:
+                    agent = active_agent or (best if scores[best] > 0 else None)
+
                 matched = CORRECTION_RE.search(txt)
                 pattern_hint = (matched.group(0)[:30] if matched else "correction").lower()
                 entry = {
                     "date": ts_str[:10],
-                    "pattern": pattern_hint,  # which correction pattern fired
+                    "pattern": pattern_hint,
                     "agent": agent or "unknown",
+                    "session": sid or "",  # for distinct-session counting downstream
                 }
                 corrections_by_agent[agent or "unknown"].append(entry)
 

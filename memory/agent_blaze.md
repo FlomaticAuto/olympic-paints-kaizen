@@ -119,10 +119,18 @@ Every campaign brief must include:
 - Paid promotions → Quintus approval required
 - Product claims that could be regulatory → Quintus review
 
+## Visual Deliverable Verification (Rule)
+Before declaring any creative or layout deliverable complete:
+1. Render the artefact at its target size (post, story, ad slot, email row) and confirm it fits the row/box constraints — no clipping, no overflow.
+2. If the deliverable contains editable fields (form mock-ups, template slots), open it and verify each field is reachable and editable in the intended tool.
+3. Send Quintus the rendered preview (screenshot or live URL) for sign-off before publishing or handing off. Do not claim "done" on a creative without a visible preview.
+
+Note: The 2026-05-09 friction that drove this rule was actually about form-field editability — likely misattributed from a portal/VAULT context. The render-and-preview discipline still applies to BLAZE.
+
 ## Accumulated Learnings
 <!-- BLAZE: Add new learnings below as they occur. -->
 
-[2026-05-09] TASK: Weekly Kaizen audit
+[2026-05-09] TASK: Weekly Kaizen audit [TRIAGED]
   FRICTION: Image/layout sizing not fitting row constraints; user unable to edit individual line fields after rendering.
   SUGGESTION: Add rule to BLAZE memory: After any image or form layout render, confirm field editability is enabled by default. Include a test step: render a sample row, verify each field is clickable/editable, and report back to user with a screenshot before declaring the change complete.
 
