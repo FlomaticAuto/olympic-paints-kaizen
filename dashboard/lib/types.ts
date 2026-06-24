@@ -49,3 +49,20 @@ export interface NotionPage {
 export function notionSlug(notionUrl: string): string {
   return notionUrl.split('/').pop() ?? notionUrl
 }
+
+export type SkillTag = 'Documentation' | 'Tools'
+
+export interface Skill {
+  notion_url: string
+  name: string
+  icon: string | null
+  tag: SkillTag | null
+  description: string | null
+  body_md: string | null
+  sections: NotionSection[] | null
+  local_path: string | null
+  superseded_by: string | null
+  notion_created_at: string | null
+  body_fetched_at: string | null
+  imported_at: string
+}

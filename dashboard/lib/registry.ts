@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import type { DashboardProject, NotionDashboard, NotionPage } from './types'
+import type { DashboardProject, NotionDashboard, NotionPage, Skill } from './types'
 import { notionSlug } from './types'
 
 const supabase = createClient(
@@ -65,4 +65,31 @@ export async function getNotionPageBySlug(
   const page = result.pages.find((p) => notionSlug(p.notion_url) === pageSlug)
   if (!page) return null
   return { dashboard: result.dashboard, page, siblings: result.pages }
+}
+
+export async function getAllSkills(): Promise<Skill[]> {
+  const { data, error } = await supabase
+    .from('skills')
+    .select('*')
+    .order('name', { ascending: true })
+
+  if (error) throw new Error(`Skills fetch failed: ${error.message}`)
+  return data ?? []
+}
+
+export async function getSkillBySlug(slug: string): Promise<{
+  skill: Skill
+  supersededByName: string | null
+  supersedesName: string | null
+} | null> {
+  const skills = await getAllSkills()
+  const skill = skills.find((s) => notionSlug(s.notion_url) === slug)
+  if (!skill) return null
+
+  const supersededByName = skill.superseded_by
+    ? (skills.find((s) => s.notion_url === skill.superseded_by)?.name ?? null)
+    : null
+  const supersedesName = skills.find((s) => s.superseded_by === skill.notion_url)?.name ?? null
+
+  return { skill, supersededByName, supersedesName }
 }

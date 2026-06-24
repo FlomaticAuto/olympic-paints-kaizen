@@ -2,15 +2,16 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { DashboardProject, NotionDashboard } from '@/lib/types'
+import type { DashboardProject, NotionDashboard, Skill } from '@/lib/types'
 import { notionSlug } from '@/lib/types'
 
 interface Props {
   projects: DashboardProject[]
   notionDashboards: NotionDashboard[]
+  skills: Skill[]
 }
 
-export function SidebarNav({ projects, notionDashboards }: Props) {
+export function SidebarNav({ projects, notionDashboards, skills }: Props) {
   const pathname = usePathname()
 
   return (
@@ -66,6 +67,37 @@ export function SidebarNav({ projects, notionDashboards }: Props) {
         })}
         {notionDashboards.length === 0 && (
           <p className="px-2 text-xs text-slate-600 italic">No Notion data</p>
+        )}
+      </div>
+
+      <div className="pt-4">
+        <Link
+          href="/skills"
+          className={`block px-2 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+            pathname === '/skills' ? 'text-white' : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          Skills
+        </Link>
+        {skills.filter((s) => !s.superseded_by).map((s) => {
+          const slug = notionSlug(s.notion_url)
+          const isActive = pathname === `/skills/${slug}`
+          return (
+            <Link
+              key={s.notion_url}
+              href={`/skills/${slug}`}
+              className={`block px-3 py-2 rounded text-xs font-mono transition-colors ${
+                isActive
+                  ? 'bg-slate-700 text-white'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              {s.name}
+            </Link>
+          )
+        })}
+        {skills.length === 0 && (
+          <p className="px-2 text-xs text-slate-600 italic">No skills</p>
         )}
       </div>
     </nav>
