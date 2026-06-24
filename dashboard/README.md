@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Olympic Paints Build Dashboard
 
-## Getting Started
+Live: **https://op-dashboard-eight.vercel.app**
 
-First, run the development server:
+A Next.js 16 server-component app that tracks the build state of every Olympic Paints
+project. It reads live from a dedicated Supabase project (`op-dashboard-registry`,
+ref `ggjjvixcdsmivzrwldvc`) on every request, so new entries appear on the next page
+visit with no rebuild.
+
+## Two surfaces, two tables
+
+| Route | Shows | Backed by | How to add/update content |
+|---|---|---|---|
+| `/` (and `/[projectId]`) | Supabase projects, their build phases, sub-systems, spec links | `dashboard_projects` | **Skill: `document-supabase-project`** |
+| `/notion`, `/notion/[slug]`, `/notion/[slug]/[pageSlug]` | Dashboards and their pages — long-form Markdown docs migrated from Notion | `notion_dashboards` + `notion_pages` | **Skill: `add-dashboard-doc`** |
+
+**To update content on either surface, invoke the matching skill — do not write SQL by
+hand.** Each skill has its own `SKILL.md` with the exact insert/upsert templates,
+verification steps, and conventions. Editing the dashboard means editing this Next.js
+code; editing the *data shown by* the dashboard means running one of the skills.
+
+## Local development
 
 ```bash
+cd dashboard
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires `.env.local` with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+NEXT_PUBLIC_REGISTRY_URL=https://ggjjvixcdsmivzrwldvc.supabase.co
+NEXT_PUBLIC_REGISTRY_ANON_KEY=sb_publishable_Dut3yj10QKqJ4JpyXTnzvQ_c9LRvxtc
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The anon key is read-only (RLS allows SELECT for everyone; writes require the service
+role used by the skills).
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+`vercel deploy --prod --yes` from this directory. The Vercel project is linked
+(`flomaticautos-projects/op-dashboard`) — no further config needed. Production env
+vars are already set in Vercel for `NEXT_PUBLIC_REGISTRY_URL` and
+`NEXT_PUBLIC_REGISTRY_ANON_KEY`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Pushes to `main` also auto-deploy via Vercel's GitHub integration.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture
 
-## Deploy on Vercel
+```
+┌──────────────────────────┐         ┌──────────────────────────┐
+│  Skills (Claude Code)    │ writes  │  op-dashboard-registry   │
+│                          │ ──────▶ │  (Supabase, eu-north-1)  │
+│  document-supabase-project          │                          │
+│  add-dashboard-doc       │         │  dashboard_projects      │
+└──────────────────────────┘         │  notion_dashboards       │
+                                     │  notion_pages            │
+                                     └────────────┬─────────────┘
+                                                  │ anon key (SELECT only)
+                                                  ▼
+                                     ┌──────────────────────────┐
+                                     │  Next.js server comps    │
+                                     │  (dynamic = force-       │
+                                     │   dynamic, no caching)   │
+                                     └────────────┬─────────────┘
+                                                  ▼
+                                     ┌──────────────────────────┐
+                                     │  Vercel production       │
+                                     │  op-dashboard-eight      │
+                                     │  .vercel.app             │
+                                     └──────────────────────────┘
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key files
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/registry.ts` — Supabase client + fetch helpers (`getAllProjects`,
+  `getAllNotionDashboards`, `getNotionDashboardBySlug`, `getNotionPageBySlug`)
+- `lib/types.ts` — `DashboardProject`, `NotionDashboard`, `NotionPage`, `notionSlug()`
+- `components/Markdown.tsx` — `react-markdown` + `remark-gfm` renderer, brand-styled
+- `components/Sidebar.tsx` + `SidebarNav.tsx` — combined navigation for both surfaces
+- `app/notion/[slug]/page.tsx` — dashboard detail (full body + child page grid)
+- `app/notion/[slug]/[pageSlug]/page.tsx` — page detail (body + prev/next nav)
