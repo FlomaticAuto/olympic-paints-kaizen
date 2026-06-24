@@ -55,3 +55,14 @@ export async function getNotionDashboardBySlug(
   if (error) throw new Error(`Notion pages fetch failed: ${error.message}`)
   return { dashboard, pages: pages ?? [] }
 }
+
+export async function getNotionPageBySlug(
+  dashboardSlug: string,
+  pageSlug: string,
+): Promise<{ dashboard: NotionDashboard; page: NotionPage; siblings: NotionPage[] } | null> {
+  const result = await getNotionDashboardBySlug(dashboardSlug)
+  if (!result) return null
+  const page = result.pages.find((p) => notionSlug(p.notion_url) === pageSlug)
+  if (!page) return null
+  return { dashboard: result.dashboard, page, siblings: result.pages }
+}

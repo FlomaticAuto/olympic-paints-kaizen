@@ -15,21 +15,34 @@ export interface DashboardProject {
 
 export type Intelligence = 'Claude' | 'ChatGPT' | 'Gemini' | 'Ollama' | 'Static' | 'Dynamic'
 
+export interface NotionSection {
+  heading: string
+  body: string
+}
+
 export interface NotionDashboard {
   notion_url: string
   name: string
+  icon: string | null
   live_url: string | null
+  body_md: string | null
+  sections: NotionSection[] | null
   notion_created_at: string | null
+  body_fetched_at: string | null
   imported_at: string
 }
 
 export interface NotionPage {
   notion_url: string
   name: string
+  icon: string | null
   live_url: string | null
   intelligence: Intelligence | null
   dashboard_url: string | null
+  body_md: string | null
+  sections: NotionSection[] | null
   notion_created_at: string | null
+  body_fetched_at: string | null
   imported_at: string
 }
 
