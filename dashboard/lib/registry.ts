@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import type { DashboardProject } from './types'
+import type { DashboardProject, NotionDashboard, NotionPage } from './types'
+import { notionSlug } from './types'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_REGISTRY_URL!,
@@ -26,4 +27,31 @@ export async function getProject(projectId: string): Promise<DashboardProject | 
   if (error?.code === 'PGRST116') return null
   if (error) throw new Error(`Registry fetch failed: ${error.message}`)
   return data
+}
+
+export async function getAllNotionDashboards(): Promise<NotionDashboard[]> {
+  const { data, error } = await supabase
+    .from('notion_dashboards')
+    .select('*')
+    .order('name', { ascending: true })
+
+  if (error) throw new Error(`Notion dashboards fetch failed: ${error.message}`)
+  return data ?? []
+}
+
+export async function getNotionDashboardBySlug(
+  slug: string,
+): Promise<{ dashboard: NotionDashboard; pages: NotionPage[] } | null> {
+  const dashboards = await getAllNotionDashboards()
+  const dashboard = dashboards.find((d) => notionSlug(d.notion_url) === slug)
+  if (!dashboard) return null
+
+  const { data: pages, error } = await supabase
+    .from('notion_pages')
+    .select('*')
+    .eq('dashboard_url', dashboard.notion_url)
+    .order('name', { ascending: true })
+
+  if (error) throw new Error(`Notion pages fetch failed: ${error.message}`)
+  return { dashboard, pages: pages ?? [] }
 }
