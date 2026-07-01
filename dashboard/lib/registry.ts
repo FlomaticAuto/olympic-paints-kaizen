@@ -67,6 +67,26 @@ export async function getNotionPageBySlug(
   return { dashboard: result.dashboard, page, siblings: result.pages }
 }
 
+export async function getStandalonePages(): Promise<NotionPage[]> {
+  const { data, error } = await supabase
+    .from('notion_pages')
+    .select('*')
+    .is('dashboard_url', null)
+    .order('name', { ascending: true })
+
+  if (error) throw new Error(`Standalone pages fetch failed: ${error.message}`)
+  return data ?? []
+}
+
+export async function getStandalonePageBySlug(
+  slug: string,
+): Promise<{ page: NotionPage; siblings: NotionPage[] } | null> {
+  const pages = await getStandalonePages()
+  const page = pages.find((p) => notionSlug(p.notion_url) === slug)
+  if (!page) return null
+  return { page, siblings: pages }
+}
+
 export async function getAllSkills(): Promise<Skill[]> {
   const { data, error } = await supabase
     .from('skills')

@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { getAllProjects, getAllNotionDashboards, getAllSkills } from '@/lib/registry'
+import { getAllProjects, getAllNotionDashboards, getStandalonePages, getAllSkills } from '@/lib/registry'
 import { SidebarNav } from './SidebarNav'
 
 export async function Sidebar() {
-  const [projects, notionDashboards, skills] = await Promise.all([
+  const [projects, notionDashboards, standalonePages, skills] = await Promise.all([
     getAllProjects(),
     getAllNotionDashboards(),
+    getStandalonePages(),
     getAllSkills(),
   ])
   return (
@@ -15,7 +16,12 @@ export async function Sidebar() {
           Build Dashboard
         </Link>
       </div>
-      <SidebarNav projects={projects} notionDashboards={notionDashboards} skills={skills} />
+      <SidebarNav
+        projects={projects}
+        notionDashboards={notionDashboards}
+        standalonePages={standalonePages}
+        skills={skills}
+      />
     </aside>
   )
 }

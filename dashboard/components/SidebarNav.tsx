@@ -2,16 +2,17 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { DashboardProject, NotionDashboard, Skill } from '@/lib/types'
+import type { DashboardProject, NotionDashboard, NotionPage, Skill } from '@/lib/types'
 import { notionSlug } from '@/lib/types'
 
 interface Props {
   projects: DashboardProject[]
   notionDashboards: NotionDashboard[]
+  standalonePages: NotionPage[]
   skills: Skill[]
 }
 
-export function SidebarNav({ projects, notionDashboards, skills }: Props) {
+export function SidebarNav({ projects, notionDashboards, standalonePages, skills }: Props) {
   const pathname = usePathname()
 
   return (
@@ -67,6 +68,37 @@ export function SidebarNav({ projects, notionDashboards, skills }: Props) {
         })}
         {notionDashboards.length === 0 && (
           <p className="px-2 text-xs text-slate-600 italic">No Notion data</p>
+        )}
+      </div>
+
+      <div className="pt-4">
+        <Link
+          href="/pages"
+          className={`block px-2 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+            pathname === '/pages' ? 'text-white' : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          Pages
+        </Link>
+        {standalonePages.map((p) => {
+          const slug = notionSlug(p.notion_url)
+          const isActive = pathname === `/pages/${slug}`
+          return (
+            <Link
+              key={p.notion_url}
+              href={`/pages/${slug}`}
+              className={`block px-3 py-2 rounded text-sm transition-colors ${
+                isActive
+                  ? 'bg-slate-700 text-white'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              {p.name}
+            </Link>
+          )
+        })}
+        {standalonePages.length === 0 && (
+          <p className="px-2 text-xs text-slate-600 italic">No pages yet</p>
         )}
       </div>
 
